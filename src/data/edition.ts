@@ -23,7 +23,7 @@ export const edition = {
   // Link all'evento Facebook dell'edizione, da inserire appena creato.
   facebookEvent: null as string | null,
   // Patrocinio del Comune di Udine: true solo quando concesso per questa edizione.
-  patrocinio: false,
+  patrocinio: true,
   // Edizione successiva, mostrata dal conto alla rovescia a fiera finita.
   next: { it: 'primavera 2027', en: 'spring 2027', sl: 'spomladi 2027', de: 'im Frühjahr 2027' },
   venue: {
