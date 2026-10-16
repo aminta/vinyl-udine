@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture, Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import ContactForm from './ContactForm.astro';
 import NewsletterForm from './NewsletterForm.astro';
@@ -7,6 +7,7 @@ import { site, edition } from '../data/edition';
 import { ui, languages, formatDate, localePath, type Lang } from '../i18n/ui';
 import { withBase } from '../utils/url';
 import logo from '../assets/logo-vinyl-udine.png';
+import badge from '../assets/logo-badge.png';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -78,7 +79,7 @@ const jsonLd = {
   <header class="topbar">
     <div class="wrap topbar__in">
       <a href="#top" class="topbar__brand" aria-label={t.backTop}>
-        <img src={logo.src} width="44" height="44" alt="" />
+        <Image src={badge} width={44} height={44} densities={[1, 2]} alt="" />
         <span>Vinyl Udine</span>
       </a>
       <nav aria-label="Menu">
@@ -290,13 +291,13 @@ const jsonLd = {
 
   <footer class="footer">
     <div class="wrap footer__in">
-      <img src={logo.src} width="72" height="72" alt="" />
+      <Image src={badge} width={96} height={96} densities={[1, 2]} alt="" class="footer__badge" />
       <div>
         <p><strong>Vinyl Udine – {t.tagline}</strong><br />{t.footer.org}: {site.organizer}</p>
         {edition.patrocinio && <p>{t.footer.patrocinio}</p>}
-        <p>
-          <a href={site.facebook} rel="noopener" target="_blank">Facebook</a> ·
-          <a href={tel}>{site.phoneLabel}</a> ·
+        <p class="footer__links">
+          <a href={site.facebook} rel="noopener" target="_blank">Facebook</a>
+          <a href={tel}>{site.phoneLabel}</a>
           <a href={withBase(localePath(lang, 'privacy'))}>{t.footer.privacy}</a>
         </p>
       </div>
@@ -344,7 +345,7 @@ const jsonLd = {
   .topbar__brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); text-transform: uppercase; letter-spacing: .02em; }
   .topbar__brand span { white-space: nowrap; }
   @media (max-width: 440px) { .topbar__brand span { display: none; } }
-  .topbar__brand img { width: 40px; height: 40px; object-fit: contain; background: var(--yellow); border-radius: 50%; padding: 3px; }
+  .topbar__brand img { width: 44px; height: 44px; }
   .topbar nav { margin-left: auto; display: flex; gap: 22px; }
   .topbar nav a { text-decoration: none; font-weight: 600; font-size: .95rem; opacity: .85; }
   .topbar nav a:hover { opacity: 1; color: var(--yellow); }
@@ -440,7 +441,9 @@ const jsonLd = {
 
   .footer { background: var(--ink); color: #fff; padding-block: 40px; }
   .footer__in { display: flex; gap: 20px; align-items: center; }
-  .footer img { background: var(--yellow); border-radius: 50%; padding: 6px; object-fit: contain; }
+  .footer :global(.footer__badge) { width: 96px; height: 96px; flex: none; }
+  .footer__links { display: flex; flex-wrap: wrap; gap: .3em .9em; }
+  .footer__links a + a::before { content: '·'; color: #fff; margin-right: .9em; display: inline-block; text-decoration: none; }
   .footer p { margin: 0 0 .4em; }
   .footer a { color: var(--yellow); }
 </style>
