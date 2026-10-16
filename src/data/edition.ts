@@ -21,7 +21,7 @@ export const edition = {
   end: '2026-11-08T19:00:00+01:00',
   price: 3,
   // Link all'evento Facebook dell'edizione, da inserire appena creato.
-  facebookEvent: null as string | null,
+  facebookEvent: 'https://www.facebook.com/events/1144383988023250/' as string | null,
   // Patrocinio del Comune di Udine: true solo quando concesso per questa edizione.
   patrocinio: true,
   // Edizione successiva, mostrata dal conto alla rovescia a fiera finita.
