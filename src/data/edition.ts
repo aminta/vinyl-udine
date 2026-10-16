@@ -11,6 +11,9 @@ export const site = {
   // Il form contatti passa da FormSubmit (formsubmit.co): al primo invio arriva una mail di attivazione a contactEmail.
   contactEmail: 'info@rockfactoryshop.com',
   contactCc: 'davide.lorigliola@gmail.com',
+  // Destinatari del form: a Davide (che ha attivato FormSubmit) con copia a info@. contactEmail resta il contatto pubblico.
+  formTo: 'davide.lorigliola@gmail.com',
+  formCc: 'info@rockfactoryshop.com',
   // Newsletter Klaviyo: chiave pubblica (Site ID) e lista "Newsletter Vinyl Udine List" (doppio opt-in).
   klaviyo: { publicKey: 'QNXe8W' as string | null, listId: 'SewNGZ' as string | null },
   // Statistiche senza cookie GoatCounter: codice dell'account (https://<codice>.goatcounter.com). null = disattivate.

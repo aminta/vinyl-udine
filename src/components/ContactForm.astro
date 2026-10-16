@@ -7,14 +7,14 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const f = ui[lang].form;
 const types = Object.entries(f.types);
-const endpoint = `https://formsubmit.co/ajax/${site.contactEmail}`;
+const endpoint = `https://formsubmit.co/ajax/${site.formTo}`;
 ---
 
 <form
   class="cform"
   novalidate
   data-endpoint={endpoint}
-  data-cc={site.contactCc}
+  data-cc={site.formCc}
   data-lang={lang}
   data-sending={f.sending}
   data-ok={f.ok}
