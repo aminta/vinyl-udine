@@ -1,38 +1,64 @@
 ---
 // Kit per gli espositori: immagini e messaggi pronti da condividere con i propri clienti.
 // Pagina di servizio, non indicizzata e non collegata dal menu: il link si manda agli espositori.
+// Testi principali in italiano, con le traduzioni EN/SL/DE subito sotto.
 import Base from '../layouts/Base.astro';
 import { site, edition } from '../data/edition';
 import { withBase } from '../utils/url';
 
-const utm = (medium: string) =>
-  `${site.url}/?utm_source=espositori&utm_medium=${medium}&utm_campaign=vinyl-2026-11`;
-const link = utm('whatsapp');
+const utm = (lang: string, medium: string) =>
+  `${site.url}/${lang ? lang + '/' : ''}?utm_source=espositori&utm_medium=${medium}&utm_campaign=vinyl-2026-11`;
 const event = edition.facebookEvent ?? site.facebook;
 
+const intros = [
+  { lang: 'en', label: 'English', text: 'Thank you for taking part in Vinyl Udine! Here you will find ready-made images and messages to share with your customers on WhatsApp, Facebook and Instagram: the more people we bring to the fair, the better for everyone.' },
+  { lang: 'sl', label: 'Slovenščina', text: 'Hvala za sodelovanje na sejmu Vinyl Udine! Tukaj so pripravljene slike in sporočila, ki jih lahko delite s svojimi strankami na WhatsAppu, Facebooku in Instagramu: več ljudi kot pripeljemo na sejem, bolje je za vse.' },
+  { lang: 'de', label: 'Deutsch', text: 'Danke, dass ihr bei Vinyl Udine dabei seid! Hier findet ihr fertige Bilder und Texte, die ihr mit euren Kunden auf WhatsApp, Facebook und Instagram teilen könnt: Je mehr Leute zur Börse kommen, desto besser für alle.' },
+];
+
 const images = [
-  { file: 'vinyl-udine-8-novembre-ci-trovate.jpg', title: 'Post "Ci trovate al nostro banco"', use: 'Facebook, Instagram, WhatsApp (1080×1080)' },
-  { file: 'vinyl-udine-8-novembre-post.jpg', title: 'Post quadrato', use: 'Facebook, Instagram, gruppi (1080×1080)' },
-  { file: 'vinyl-udine-8-novembre-storia.jpg', title: 'Storia verticale', use: 'Stato WhatsApp, storie Instagram e Facebook (1080×1920)' },
-  { file: 'vinyl-udine-8-novembre-volantino.jpg', title: 'Volantino', use: 'Da inoltrare o stampare' },
+  {
+    file: 'vinyl-udine-8-novembre-ci-trovate.jpg',
+    title: 'Post "Ci trovate al nostro banco"',
+    tr: '"Find us at our stall" post · Objava "Najdete nas na naši stojnici" · Post "Ihr findet uns an unserem Stand"',
+    use: 'Facebook, Instagram, WhatsApp · 1080×1080',
+  },
+  {
+    file: 'vinyl-udine-8-novembre-post.jpg',
+    title: 'Post quadrato',
+    tr: 'Square post · Kvadratna objava · Quadratischer Post',
+    use: 'Facebook, Instagram · 1080×1080',
+  },
+  {
+    file: 'vinyl-udine-8-novembre-storia.jpg',
+    title: 'Storia verticale',
+    tr: 'Story · Zgodba · Story',
+    use: 'WhatsApp, Instagram, Facebook · 1080×1920',
+  },
+  {
+    file: 'vinyl-udine-8-novembre-volantino.jpg',
+    title: 'Volantino',
+    tr: 'Flyer · Letak · Flyer',
+    use: 'WhatsApp, e-mail, stampa / print',
+  },
 ];
 
 const messages = [
   {
-    lang: 'Italiano',
-    text: `📀 Domenica 8 novembre siamo a Vinyl Udine, la fiera del disco al Bearzi (via Don Bosco 2, Udine), dalle 9.30 alle 19.00, ingresso 3 €. Vinili e CD nuovi, usati e da collezione: passate a trovarci al nostro banco! Portate anche i vostri dischi da scambiare.\nInfo e mappa: ${link}`,
+    lang: 'it', label: 'Italiano', copy: 'Copia testo', done: 'Copiato!',
+    text: `📀 Domenica 8 novembre siamo a Vinyl Udine, la fiera del disco al Bearzi (via Don Bosco 2, Udine), dalle 9.30 alle 19.00, ingresso 3 €. Vinili e CD nuovi, usati e da collezione: passate a trovarci al nostro banco! Portate anche i vostri dischi da scambiare.\nInfo e mappa: ${utm('', 'whatsapp')}`,
   },
   {
-    lang: 'English',
-    text: `📀 On Sunday 8 November you'll find us at Vinyl Udine, the record fair at the Bearzi sports hall (Via Don Bosco 2, Udine), 9.30am–7pm, admission €3. New, used and collectable vinyl and CDs – come and see us at our stall!\nInfo and map: ${utm('whatsapp-en').replace('/?', '/en/?')}`,
+    lang: 'en', label: 'English', copy: 'Copy text', done: 'Copied!',
+    text: `📀 On Sunday 8 November you'll find us at Vinyl Udine, the record fair at the Bearzi sports hall (Via Don Bosco 2, Udine), 9.30am–7pm, admission €3. New, used and collectable vinyl and CDs – come and see us at our stall!\nInfo and map: ${utm('en', 'whatsapp-en')}`,
   },
   {
-    lang: 'Slovenščina',
-    text: `📀 V nedeljo, 8. novembra, smo na sejmu plošč Vinyl Udine v telovadnici Bearzi (Via Don Bosco 2, Videm), od 9.30 do 19.00, vstopnina 3 €. Nove, rabljene in zbirateljske plošče in CD-ji – obiščite nas na naši stojnici!\nInformacije in zemljevid: ${utm('whatsapp-sl').replace('/?', '/sl/?')}`,
+    lang: 'sl', label: 'Slovenščina', copy: 'Kopiraj besedilo', done: 'Kopirano!',
+    text: `📀 V nedeljo, 8. novembra, smo na sejmu plošč Vinyl Udine v telovadnici Bearzi (Via Don Bosco 2, Videm), od 9.30 do 19.00, vstopnina 3 €. Nove, rabljene in zbirateljske plošče in CD-ji – obiščite nas na naši stojnici!\nInformacije in zemljevid: ${utm('sl', 'whatsapp-sl')}`,
   },
   {
-    lang: 'Deutsch',
-    text: `📀 Am Sonntag, 8. November, sind wir bei Vinyl Udine, der Schallplattenbörse in der Sporthalle Bearzi (Via Don Bosco 2, Udine), 9.30–19.00 Uhr, Eintritt 3 €. Neue, gebrauchte und Sammler-Platten und CDs – besucht uns an unserem Stand!\nInfos und Karte: ${utm('whatsapp-de').replace('/?', '/de/?')}`,
+    lang: 'de', label: 'Deutsch', copy: 'Text kopieren', done: 'Kopiert!',
+    text: `📀 Am Sonntag, 8. November, sind wir bei Vinyl Udine, der Schallplattenbörse in der Sporthalle Bearzi (Via Don Bosco 2, Udine), 9.30–19.00 Uhr, Eintritt 3 €. Neue, gebrauchte und Sammler-Platten und CDs – besucht uns an unserem Stand!\nInfos und Karte: ${utm('de', 'whatsapp-de')}`,
   },
 ];
 ---
@@ -40,43 +66,58 @@ const messages = [
 <Base lang="it" title="Kit espositori – Vinyl Udine" description="Immagini e messaggi pronti per gli espositori di Vinyl Udine." path="kit" noindex>
   <main class="wrap section kit">
     <p><a href={withBase('')}>← vinyludine.it</a></p>
-    <p class="kicker">Per gli espositori</p>
+    <p class="kicker">Per gli espositori · For dealers · Za razstavljavce · Für Aussteller</p>
     <h1>Kit per l'8 novembre</h1>
+    <p class="kit__sub">Exhibitor kit · Komplet za razstavljavce · Ausstellerpaket</p>
     <p class="lead">
       Grazie per partecipare a Vinyl Udine! Qui trovate immagini e messaggi pronti da condividere con i vostri clienti
       su WhatsApp, Facebook e Instagram: più persone portiamo in fiera, meglio va per tutti.
     </p>
+    <div class="kit__intros">
+      {intros.map((i) => (
+        <p lang={i.lang}><strong>{i.label}</strong> {i.text}</p>
+      ))}
+    </div>
 
-    <h2>Immagini</h2>
+    <h2>Immagini <span>· Images · Slike · Bilder</span></h2>
     <div class="kit__grid">
       {images.map((img) => (
         <figure class="kit__card">
           <img src={withBase(`kit/${img.file}`)} alt={img.title} loading="lazy" />
           <figcaption>
             <strong>{img.title}</strong>
+            <span class="kit__tr">{img.tr}</span>
             <span>{img.use}</span>
-            <a class="btn" href={withBase(`kit/${img.file}`)} download>Scarica</a>
+            <a class="btn" href={withBase(`kit/${img.file}`)} download>Scarica · Download</a>
           </figcaption>
         </figure>
       ))}
     </div>
 
-    <h2>Messaggi da copiare</h2>
+    <h2>Messaggi da copiare <span>· Messages to copy · Sporočila za kopiranje · Texte zum Kopieren</span></h2>
     <div class="kit__msgs">
       {messages.map((m) => (
-        <article class="kit__msg">
-          <h3>{m.lang}</h3>
+        <article class="kit__msg" lang={m.lang}>
+          <h3>{m.label}</h3>
           <p class="kit__text">{m.text}</p>
-          <button type="button" class="btn btn--red kit__copy">Copia testo</button>
+          <button type="button" class="btn btn--red kit__copy" data-label={m.copy} data-done={m.done}>{m.copy}</button>
         </article>
       ))}
     </div>
 
-    <h2>Link utili</h2>
+    <h2>Link utili <span>· Useful links · Uporabne povezave · Nützliche Links</span></h2>
     <ul class="kit__links">
-      <li>Sito: <a href={link}>vinyludine.it</a></li>
-      <li>Evento Facebook (condividetelo e cliccate "Mi interessa"): <a href={event}>{event}</a></li>
-      <li>Pagina Facebook: <a href={site.facebook}>{site.facebook}</a></li>
+      <li>
+        Sito · Website · Spletna stran · Website:
+        <a href={utm('', 'kit')}>vinyludine.it</a>
+        (<a href={utm('en', 'kit')}>EN</a> · <a href={utm('sl', 'kit')}>SL</a> · <a href={utm('de', 'kit')}>DE</a>)
+      </li>
+      <li>
+        Evento Facebook: condividetelo e cliccate "Mi interessa" · Facebook event: share it and tap "Interested" ·
+        Dogodek na Facebooku · Facebook-Veranstaltung:
+        <a href={event}>{event}</a>
+      </li>
+      <li>Pagina Facebook · Facebook page: <a href={site.facebook}>{site.facebook}</a></li>
     </ul>
   </main>
 
@@ -86,30 +127,36 @@ const messages = [
         const text = btn.parentElement!.querySelector('.kit__text')!.textContent!;
         try {
           await navigator.clipboard.writeText(text);
-          btn.textContent = 'Copiato!';
+          btn.textContent = btn.dataset.done!;
         } catch {
-          btn.textContent = 'Selezionalo e copialo a mano';
+          btn.textContent = '⚠︎';
         }
-        setTimeout(() => (btn.textContent = 'Copia testo'), 2500);
+        setTimeout(() => (btn.textContent = btn.dataset.label!), 2500);
       });
     });
   </script>
 </Base>
 
 <style>
-  .kit h1 { font-size: clamp(2rem, 6vw, 3.4rem); text-transform: uppercase; }
+  .kit h1 { font-size: clamp(2rem, 6vw, 3.4rem); text-transform: uppercase; margin-bottom: .1em; }
+  .kit__sub { font-family: var(--font-grunge); color: var(--red); font-size: 1.15rem; }
   .kit h2 { margin-top: 1.6em; font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+  .kit h2 span { font-family: var(--font-body); font-size: .45em; font-weight: 600; text-transform: none; color: var(--muted); letter-spacing: 0; }
+  .kit__intros { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 24px; }
+  .kit__intros p { font-size: .92rem; color: var(--muted); margin: 0; border-left: 3px solid var(--yellow); padding-left: 12px; }
+  .kit__intros strong { display: block; color: var(--red); }
   .kit__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
   .kit__card { margin: 0; background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
   .kit__card img { width: 100%; height: 260px; object-fit: contain; background: var(--yellow-soft); }
   .kit__card figcaption { padding: 14px; display: grid; gap: 6px; }
-  .kit__card span { font-size: .9rem; color: var(--muted); }
+  .kit__card span { font-size: .88rem; color: var(--muted); }
+  .kit__card .kit__tr { font-style: italic; }
   .kit__card .btn { justify-self: start; margin-top: 4px; }
   .kit__msgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
   .kit__msg { background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; }
   .kit__msg h3 { font-family: var(--font-grunge); color: var(--red); }
   .kit__text { white-space: pre-line; font-size: .95rem; flex: 1; overflow-wrap: anywhere; }
   .kit__copy { cursor: pointer; font: inherit; font-weight: 700; align-self: flex-start; }
-  .kit__links { padding-left: 1.2em; }
+  .kit__links { padding-left: 1.2em; display: grid; gap: 8px; }
   .kit__links a { overflow-wrap: anywhere; }
 </style>

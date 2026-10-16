@@ -13,6 +13,8 @@ export const site = {
   contactCc: 'davide.lorigliola@gmail.com',
   // Newsletter Klaviyo: chiave pubblica (Site ID) e lista "Newsletter Vinyl Udine List" (doppio opt-in).
   klaviyo: { publicKey: 'QNXe8W' as string | null, listId: 'SewNGZ' as string | null },
+  // Statistiche senza cookie GoatCounter: codice dell'account (https://<codice>.goatcounter.com). null = disattivate.
+  goatcounter: 'vinyludine' as string | null,
 };
 
 export const edition = {

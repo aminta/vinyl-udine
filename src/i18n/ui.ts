@@ -125,7 +125,7 @@ const it = {
     back: '← Torna al sito',
     sections: [
       ['', 'Questo sito è una semplice vetrina informativa sulla fiera del disco Vinyl Udine.'],
-      ['Cookie e tracciamento', 'Il sito non usa cookie, né strumenti di analisi o di profilazione.'],
+      ['Cookie e statistiche', 'Il sito non usa cookie né strumenti di profilazione. Per contare le visite usiamo GoatCounter, un servizio di statistiche anonime che non usa cookie e non raccoglie dati personali: registra solo pagina visitata, provenienza, browser, dimensione dello schermo e paese.'],
       ['Modulo di contatto', 'Nome, email e messaggio che invii col modulo di contatto vengono inoltrati per email agli organizzatori tramite il servizio FormSubmit (formsubmit.co) e usati solo per risponderti. Non li cediamo a terzi e li cancelliamo quando non servono più. Puoi chiederne in ogni momento l\'accesso o la cancellazione.'],
       ['Newsletter', 'Se ti iscrivi alla newsletter, il tuo indirizzo email viene registrato su Klaviyo, il servizio che usiamo per inviarla, e usato solo per comunicarti date e novità di Vinyl Udine. Ogni email contiene il link per disiscriverti.'],
       ['Servizi esterni', 'Il sito è ospitato su GitHub Pages (GitHub Inc.), che può registrare dati tecnici di navigazione come l\'indirizzo IP per motivi di sicurezza e funzionamento. La mappa di OpenStreetMap viene caricata solo se scegli di aprirla. I link a Facebook, WhatsApp, Google Maps e OpenStreetMap portano a servizi esterni con le loro informative.'],
@@ -255,7 +255,7 @@ const en: Dict = {
     back: '← Back to the site',
     sections: [
       ['', 'This website is a simple information page about the Vinyl Udine record fair.'],
-      ['Cookies and tracking', 'The site uses no cookies, analytics or profiling tools.'],
+      ['Cookies and statistics', 'The site uses no cookies or profiling tools. To count visits we use GoatCounter, an anonymous statistics service that uses no cookies and collects no personal data: it only records the page visited, referrer, browser, screen size and country.'],
       ['Contact form', 'The name, email and message you send through the contact form are forwarded by email to the organisers via the FormSubmit service (formsubmit.co) and used only to reply to you. We do not share them with third parties and delete them when no longer needed. You can ask to access or delete them at any time.'],
       ['Newsletter', 'If you sign up to the newsletter, your email address is stored on Klaviyo, the service we use to send it, and used only to tell you about Vinyl Udine dates and news. Every email contains an unsubscribe link.'],
       ['External services', 'The site is hosted on GitHub Pages (GitHub Inc.), which may log technical data such as your IP address for security and operational purposes. The OpenStreetMap map loads only if you choose to open it. Links to Facebook, WhatsApp, Google Maps and OpenStreetMap lead to external services with their own privacy policies.'],
@@ -383,7 +383,7 @@ const sl: Dict = {
     back: '← Nazaj na spletno stran',
     sections: [
       ['', 'Ta spletna stran je preprosta informativna stran o sejmu plošč Vinyl Udine.'],
-      ['Piškotki in sledenje', 'Stran ne uporablja piškotkov ne orodij za analitiko ali profiliranje.'],
+      ['Piškotki in statistika', 'Stran ne uporablja piškotkov ne orodij za profiliranje. Za štetje obiskov uporabljamo GoatCounter, storitev anonimne statistike brez piškotkov, ki ne zbira osebnih podatkov: beleži le obiskano stran, izvor obiska, brskalnik, velikost zaslona in državo.'],
       ['Kontaktni obrazec', 'Ime, e-naslov in sporočilo, ki jih pošljete prek kontaktnega obrazca, se po e-pošti posredujejo organizatorjem prek storitve FormSubmit (formsubmit.co) in se uporabijo samo za odgovor. Ne posredujemo jih tretjim osebam in jih izbrišemo, ko niso več potrebni. Kadar koli lahko zahtevate dostop do njih ali njihov izbris.'],
       ['E-novice', 'Če se prijavite na e-novice, se vaš e-naslov shrani v storitvi Klaviyo, ki jo uporabljamo za pošiljanje, in se uporablja samo za obveščanje o datumih in novostih Vinyl Udine. Vsako sporočilo vsebuje povezavo za odjavo.'],
       ['Zunanje storitve', 'Stran gostuje na GitHub Pages (GitHub Inc.), ki lahko zaradi varnosti in delovanja beleži tehnične podatke, kot je naslov IP. Zemljevid OpenStreetMap se naloži šele, ko ga odprete. Povezave na Facebook, WhatsApp, Google Maps in OpenStreetMap vodijo do zunanjih storitev z lastnimi pravili o zasebnosti.'],
@@ -511,7 +511,7 @@ const de: Dict = {
     back: '← Zurück zur Website',
     sections: [
       ['', 'Diese Website ist eine einfache Informationsseite über die Schallplattenbörse Vinyl Udine.'],
-      ['Cookies und Tracking', 'Die Website verwendet keine Cookies und keine Analyse- oder Profiling-Tools.'],
+      ['Cookies und Statistik', 'Die Website verwendet keine Cookies und keine Profiling-Tools. Zum Zählen der Besuche nutzen wir GoatCounter, einen anonymen Statistikdienst ohne Cookies, der keine personenbezogenen Daten erhebt: Er erfasst nur die besuchte Seite, die Herkunft, den Browser, die Bildschirmgröße und das Land.'],
       ['Kontaktformular', 'Name, E-Mail-Adresse und Nachricht, die du über das Kontaktformular sendest, werden über den Dienst FormSubmit (formsubmit.co) per E-Mail an die Veranstalter weitergeleitet und nur für die Antwort verwendet. Wir geben sie nicht an Dritte weiter und löschen sie, sobald sie nicht mehr benötigt werden. Du kannst jederzeit Auskunft oder Löschung verlangen.'],
       ['Newsletter', 'Wenn du den Newsletter abonnierst, wird deine E-Mail-Adresse bei Klaviyo gespeichert, dem Dienst, mit dem wir ihn versenden, und nur für Termine und Neuigkeiten von Vinyl Udine verwendet. Jede E-Mail enthält einen Abmeldelink.'],
       ['Externe Dienste', 'Die Website wird bei GitHub Pages (GitHub Inc.) gehostet, das aus Sicherheits- und Betriebsgründen technische Daten wie die IP-Adresse protokollieren kann. Die OpenStreetMap-Karte wird erst geladen, wenn du sie öffnest. Links zu Facebook, WhatsApp, Google Maps und OpenStreetMap führen zu externen Diensten mit eigenen Datenschutzbestimmungen.'],

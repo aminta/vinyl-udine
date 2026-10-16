@@ -50,6 +50,9 @@ const ogUrl = new URL(ogImage, Astro.site);
     <meta name="twitter:card" content="summary_large_image" />
 
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {site.goatcounter && import.meta.env.PROD && (
+      <script is:inline async data-goatcounter={`https://${site.goatcounter}.goatcounter.com/count`} src="https://gc.zgo.at/count.js"></script>
+    )}
   </head>
   <body>
     <slot />
