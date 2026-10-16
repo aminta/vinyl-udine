@@ -14,9 +14,11 @@ interface Props {
   path?: string;
   ogImage?: string;
   jsonLd?: object;
+  // Pagine di servizio (es. /kit): niente indicizzazione né hreflang.
+  noindex?: boolean;
 }
 
-const { lang, title, description, path = '', ogImage = withBase('og-image.jpg'), jsonLd } = Astro.props;
+const { lang, title, description, path = '', ogImage = withBase('og-image.jpg'), jsonLd, noindex = false } = Astro.props;
 const abs = (l: Lang) => new URL(withBase(localePath(l, path)), Astro.site).href;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
@@ -29,8 +31,9 @@ const ogUrl = new URL(ogImage, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={abs(lang)} />
-    {(Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
-    <link rel="alternate" hreflang="x-default" href={abs(defaultLang)} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && (Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={abs(defaultLang)} />}
     <meta name="theme-color" content="#FCCF04" />
     <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
     <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
