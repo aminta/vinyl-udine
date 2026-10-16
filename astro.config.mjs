@@ -6,5 +6,4 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://vinyludine.it',
   base: process.env.PAGES_BASE || '/',
   trailingSlash: 'ignore',
-  build: { format: 'file' },
 });

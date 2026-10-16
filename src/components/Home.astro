@@ -1,0 +1,446 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ContactForm from './ContactForm.astro';
+import NewsletterForm from './NewsletterForm.astro';
+import { site, edition } from '../data/edition';
+import { ui, languages, formatDate, localePath, type Lang } from '../i18n/ui';
+import { withBase } from '../utils/url';
+import logo from '../assets/logo-vinyl-udine.png';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const photos = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.jpg', { eager: true }),
+).map((m) => m.default);
+const [heroPhoto, ...gallery] = photos;
+
+const v = edition.venue;
+const date = formatDate(edition.start, lang);
+const [weekday, ...dateRest] = date.replace(',', '').split(' ');
+const address = `${v.street}, ${v.postalCode} ${t.city}`;
+const place = `${t.venueName} – ${v.host}, ${address}`;
+const mapsQuery = encodeURIComponent(`${v.host}, ${v.street}, ${v.postalCode} ${v.city}`);
+const directions = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+const osmEmbed = `https://www.openstreetmap.org/export/embed.html?bbox=${v.lon - 0.006}%2C${v.lat - 0.003}%2C${v.lon + 0.006}%2C${v.lat + 0.003}&layer=mapnik&marker=${v.lat}%2C${v.lon}`;
+const osmLink = `https://www.openstreetmap.org/?mlat=${v.lat}&mlon=${v.lon}#map=17/${v.lat}/${v.lon}`;
+const icsFile = withBase(`vinyl-udine-${edition.start.slice(0, 10)}${lang === 'it' ? '' : '-' + lang}.ics`);
+const tel = `tel:${site.phone.replace(/\s/g, '')}`;
+const whatsapp = `https://wa.me/${site.phone.replace(/\D/g, '')}`;
+const home = withBase(localePath(lang));
+const faqs = t.faq.items(edition.price);
+
+const title = t.metaTitle(date);
+const description = t.metaDescription(date, place, edition.price);
+const pageUrl = new URL(home, Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${site.name} – ${t.tagline}`,
+  description,
+  inLanguage: lang,
+  startDate: edition.start,
+  endDate: edition.end,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  image: [new URL(withBase('og-image.jpg'), Astro.site).href],
+  url: pageUrl,
+  location: {
+    '@type': 'Place',
+    name: `${v.name} – ${v.host}`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: v.street,
+      postalCode: v.postalCode,
+      addressLocality: v.city,
+      addressRegion: v.region,
+      addressCountry: 'IT',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: v.lat, longitude: v.lon },
+  },
+  offers: {
+    '@type': 'Offer',
+    price: edition.price.toFixed(2),
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+    url: pageUrl,
+  },
+  organizer: { '@type': 'Organization', name: site.name, url: site.url, sameAs: [site.facebook] },
+};
+---
+
+<Base lang={lang} title={title} description={description} jsonLd={jsonLd}>
+  <a class="skip" href="#main">{t.skip}</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__in">
+      <a href="#top" class="topbar__brand" aria-label={t.backTop}>
+        <img src={logo.src} width="44" height="44" alt="" />
+        <span>Vinyl Udine</span>
+      </a>
+      <nav aria-label="Menu">
+        <a href="#cosa">{t.nav.fair}</a>
+        <a href="#foto">{t.nav.photos}</a>
+        <a href="#dove">{t.nav.where}</a>
+        <a href="#espositori">{t.nav.exhibitors}</a>
+        <a href="#contatti">{t.nav.contact}</a>
+      </nav>
+      <ul class="lang" aria-label={t.langMenu}>
+        {(Object.keys(languages) as Lang[]).map((l) => (
+          <li>
+            <a
+              href={withBase(localePath(l))}
+              hreflang={l}
+              lang={l}
+              title={languages[l].label}
+              aria-current={l === lang ? 'page' : undefined}
+            >{languages[l].short}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="topbar__fb" href={site.facebook} rel="noopener" target="_blank" aria-label={t.fbAria}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <img class="hero__logo" src={logo.src} width={logo.width} height={logo.height} alt="Vinyl Udine" />
+          <p class="hero__sub">{t.tagline} · {t.editionLabel(edition.number)}</p>
+          <h1 class="hero__date">
+            <span>{weekday}</span>
+            {dateRest.join(' ')}
+          </h1>
+          <p class="hero__claim">{t.claim[0]}<br />{t.claim[1]}</p>
+          <ul class="facts">
+            <li><strong>{t.hours}</strong> {t.hoursNote}</li>
+            <li><strong>{edition.price} €</strong> {t.admission}</li>
+            <li><strong>{t.venueName}</strong> {v.host}, {v.street}</li>
+          </ul>
+          <div class="hero__cta">
+            <a class="btn" href={icsFile} download>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v10H5V10h14Z"/></svg>
+              {t.cta.calendar}
+            </a>
+            <a class="btn btn--ghost" href={directions} rel="noopener" target="_blank">{t.cta.directions}</a>
+            {edition.facebookEvent && (
+              <a class="btn btn--red" href={edition.facebookEvent} rel="noopener" target="_blank">{t.cta.fbEvent}</a>
+            )}
+          </div>
+          <p
+            class="countdown"
+            aria-live="polite"
+            data-start={edition.start}
+            data-end={edition.end}
+            data-after={t.countdown.after(edition.next[lang])}
+            data-open={t.countdown.open}
+            data-today={t.countdown.today}
+            data-tomorrow={t.countdown.tomorrow}
+            data-days={t.countdown.days(999)}
+          ></p>
+        </div>
+        <div class="hero__media">
+          <div class="disc" aria-hidden="true"></div>
+          <Picture
+            src={heroPhoto}
+            formats={['avif', 'webp']}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 900px) 520px, 100vw"
+            alt={t.heroAlt}
+            loading="eager"
+            fetchpriority="high"
+            class="hero__photo"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cosa">
+      <div class="wrap">
+        <p class="kicker">{t.fair.kicker}</p>
+        <h2>{t.fair.title}</h2>
+        <p class="lead">{t.fair.intro}</p>
+        <ul class="genres" aria-label={t.fair.genresAria}>
+          {t.fair.genres.map((g) => <li>{g}</li>)}
+        </ul>
+        <div class="cards">
+          {t.fair.cards.map((c, i) => (
+            <article class="card">
+              <span class="card__num">0{i + 1}</span>
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-sec" id="foto">
+      <div class="wrap">
+        <p class="kicker">{t.gallery.kicker}</p>
+        <h2>{t.gallery.title}</h2>
+        <div class="gallery">
+          {gallery.slice(0, 9).map((img, i) => (
+            <Picture
+              src={img}
+              formats={['avif', 'webp']}
+              widths={[400, 800]}
+              sizes="(min-width: 900px) 360px, 50vw"
+              alt={t.galleryAlt(i + 1)}
+              class="gallery__img"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dove">
+      <div class="wrap where">
+        <div>
+          <p class="kicker">{t.where.kicker}</p>
+          <h2>{t.where.title}</h2>
+          <dl class="info">
+            <div><dt>{t.where.when}</dt><dd>{date}<br />{t.hours}, {t.hoursNote}</dd></div>
+            <div><dt>{t.where.whereLabel}</dt><dd>{t.venueName} – {v.host}<br />{address}</dd></div>
+            <div><dt>{t.where.admission}</dt><dd>{edition.price} € {t.perPerson}</dd></div>
+            <div><dt>{t.where.services}</dt><dd>{t.where.servicesText}</dd></div>
+          </dl>
+          <div class="hero__cta">
+            <a class="btn" href={directions} rel="noopener" target="_blank">{t.cta.route}</a>
+            <a class="btn btn--ghost" href={icsFile} download>{t.cta.saveDate}</a>
+          </div>
+        </div>
+        <div class="map" data-src={osmEmbed} data-title={t.where.mapTitle}>
+          <button type="button" class="map__load">
+            <span>{t.where.showMap}</span>
+            <small>{t.where.mapNote}</small>
+          </button>
+          <a class="map__link" href={osmLink} rel="noopener" target="_blank">{t.where.openOsm}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq-sec">
+      <div class="wrap">
+        <p class="kicker">{t.faq.kicker}</p>
+        <h2>{t.faq.title}</h2>
+        <div class="faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section exhib" id="espositori">
+      <div class="wrap exhib__in">
+        <div>
+          <p class="kicker kicker--light">{t.exhib.kicker}</p>
+          <h2>{t.exhib.title}</h2>
+          <p class="lead">{t.exhib.lead}</p>
+        </div>
+        <div class="exhib__cta">
+          <a class="btn" href="#contatti-espositore">{t.exhib.write}</a>
+          <a class="btn btn--ghost" href={tel}>{t.exhib.call} {site.phoneLabel}</a>
+          <a class="btn btn--ghost" href={whatsapp} rel="noopener" target="_blank">WhatsApp</a>
+          <a class="btn btn--ghost" href={site.messenger} rel="noopener" target="_blank">Messenger</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contatti">
+      <span id="contatti-espositore"></span>
+      <div class="wrap contact__grid">
+        <div>
+          <p class="kicker">{t.contact.kicker}</p>
+          <h2>{t.contact.title}</h2>
+          <p>{t.contact.lead}</p>
+          <ContactForm lang={lang} />
+        </div>
+        <aside class="contact__side">
+          <div class="contact__box">
+            <h3>{t.contact.newsTitle}</h3>
+            {site.klaviyo.publicKey && site.klaviyo.listId ? (
+              <>
+                <p>{t.contact.newsLead}</p>
+                <NewsletterForm lang={lang} />
+              </>
+            ) : (
+              <p>{t.contact.fbFollow[0]} <a href={site.facebook} rel="noopener" target="_blank">{t.contact.fbFollow[1]}</a> {t.contact.fbFollow[2]}</p>
+            )}
+          </div>
+          <div class="contact__box contact__box--dark">
+            <h3>{t.contact.talkTitle}</h3>
+            <p><a href={tel}>{site.phone}</a><br />{t.contact.alsoOn} <a href={whatsapp} rel="noopener" target="_blank">WhatsApp</a></p>
+            <p><a href={site.facebook} rel="noopener" target="_blank">facebook.com/vinyludine</a></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__in">
+      <img src={logo.src} width="72" height="72" alt="" />
+      <div>
+        <p><strong>Vinyl Udine – {t.tagline}</strong><br />{t.footer.org}: {site.organizer}</p>
+        {edition.patrocinio && <p>{t.footer.patrocinio}</p>}
+        <p>
+          <a href={site.facebook} rel="noopener" target="_blank">Facebook</a> ·
+          <a href={tel}>{site.phoneLabel}</a> ·
+          <a href={withBase(localePath(lang, 'privacy'))}>{t.footer.privacy}</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const cd = document.querySelector<HTMLElement>('.countdown');
+    if (cd) {
+      const d = cd.dataset;
+      const start = new Date(d.start!).getTime();
+      const end = new Date(d.end!).getTime();
+      const render = () => {
+        const now = Date.now();
+        const day = 864e5;
+        if (now > end) { cd.textContent = d.after!; return; }
+        if (now >= start) { cd.textContent = d.open!; return; }
+        const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const calDays = Math.round((startDay.getTime() - today.getTime()) / day);
+        cd.textContent =
+          calDays === 0 ? d.today! :
+          calDays === 1 ? d.tomorrow! :
+          d.days!.replace('999', String(calDays));
+      };
+      render();
+      setInterval(render, 60_000);
+    }
+
+    document.querySelectorAll<HTMLElement>('.map').forEach((map) => {
+      map.querySelector('.map__load')?.addEventListener('click', () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = map.dataset.src!;
+        iframe.title = map.dataset.title!;
+        iframe.loading = 'lazy';
+        map.querySelector('.map__load')?.replaceWith(iframe);
+      });
+    });
+  </script>
+</Base>
+
+<style>
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgb(20 20 20 / .94); color: #fff; backdrop-filter: blur(6px); }
+  .topbar__in { display: flex; align-items: center; gap: 16px; min-height: 60px; }
+  .topbar__brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); text-transform: uppercase; letter-spacing: .02em; }
+  .topbar__brand span { white-space: nowrap; }
+  @media (max-width: 440px) { .topbar__brand span { display: none; } }
+  .topbar__brand img { width: 40px; height: 40px; object-fit: contain; background: var(--yellow); border-radius: 50%; padding: 3px; }
+  .topbar nav { margin-left: auto; display: flex; gap: 22px; }
+  .topbar nav a { text-decoration: none; font-weight: 600; font-size: .95rem; opacity: .85; }
+  .topbar nav a:hover { opacity: 1; color: var(--yellow); }
+  .topbar__fb { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--yellow); color: var(--ink); }
+  .topbar__fb svg { width: 20px; height: 20px; }
+  .lang { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; }
+  .lang a { display: block; text-decoration: none; font-weight: 700; font-size: .8rem; padding: .3em .5em; border-radius: 6px; opacity: .7; }
+  .lang a:hover { opacity: 1; }
+  .lang a[aria-current='page'] { background: var(--yellow); color: var(--ink); opacity: 1; }
+  @media (max-width: 960px) { .topbar nav { display: none; } .lang { margin-left: auto; } }
+
+  .hero { background: var(--yellow); overflow: hidden; padding-block: clamp(32px, 6vw, 72px) clamp(48px, 7vw, 88px); }
+  .hero__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+  .hero__logo { width: min(100%, 360px, 70vw); filter: drop-shadow(0 4px 0 rgb(0 0 0 / .08)); }
+  .hero__sub { font-family: var(--font-grunge); font-size: clamp(1.2rem, 2.4vw, 1.6rem); color: var(--red); margin: .6em 0 .2em; letter-spacing: .03em; }
+  .hero__date { display: inline-block; background: var(--red); color: #fff; font-size: clamp(1.8rem, 5.2vw, 3.4rem); padding: .2em .45em .25em; text-transform: uppercase; transform: rotate(-1.2deg); margin: .2em 0 .5em; box-shadow: 6px 6px 0 var(--ink); }
+  .hero__date span { display: block; font-size: .45em; letter-spacing: .12em; opacity: .9; }
+  .hero__claim { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.2; color: var(--red-dark); }
+  .facts { list-style: none; padding: 0; margin: 0 0 1.4em; display: grid; gap: 6px; }
+  .facts li { display: flex; flex-wrap: wrap; gap: .45em; align-items: baseline; }
+  .facts strong { background: var(--ink); color: var(--yellow); padding: .05em .45em; border-radius: 4px; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .countdown { margin: 1.1em 0 0; font-family: var(--font-grunge); font-size: 1.35rem; min-height: 1.6em; }
+  .hero__media { position: relative; }
+  .hero__photo { position: relative; z-index: 1; border-radius: var(--radius); border: 6px solid var(--ink); box-shadow: 10px 10px 0 var(--red); transform: rotate(1.5deg); aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
+  .disc { position: absolute; z-index: 0; width: 78%; aspect-ratio: 1; right: -22%; top: -12%; border-radius: 50%;
+    background: radial-gradient(circle, var(--yellow) 0 3%, var(--red) 3.5% 22%, #111 22.5% 23.5%, #1c1c1c 24%) ;
+    box-shadow: inset 0 0 0 1px #000; animation: spin 9s linear infinite; }
+  .disc::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 6px, rgb(255 255 255 / .05) 6px 7px); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 900px) {
+    .hero__grid { grid-template-columns: 1fr; }
+    .hero__media { max-width: 520px; }
+    .hero__photo { aspect-ratio: 4 / 3; }
+  }
+
+  .genres { list-style: none; padding: 0; margin: 1.6em 0 2.4em; display: flex; flex-wrap: wrap; gap: 8px; }
+  .genres li { border: 2px solid var(--ink); border-radius: 999px; padding: .25em .9em; font-weight: 700; font-size: .95rem; }
+  .genres li:nth-child(3n + 1) { background: var(--yellow); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); padding: 24px; box-shadow: 6px 6px 0 var(--ink); }
+  .card__num { font-family: var(--font-grunge); color: var(--red); font-size: 1.6rem; }
+  .card p { margin: 0; color: var(--muted); }
+  @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
+
+  .gallery-sec { background: var(--ink); color: #fff; }
+  .gallery-sec .kicker { color: var(--yellow); }
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 1.2em; }
+  .gallery :global(.gallery__img) { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; }
+  .gallery :global(picture:nth-child(1)) { grid-column: span 2; grid-row: span 2; }
+  @media (max-width: 720px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+
+  .where { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 56px); align-items: start; }
+  .info { margin: 0 0 1.4em; display: grid; gap: 14px; }
+  .info div { display: grid; grid-template-columns: 110px 1fr; gap: 12px; border-bottom: 2px dashed rgb(0 0 0 / .15); padding-bottom: 12px; }
+  .info dt { font-family: var(--font-display); text-transform: uppercase; font-size: .9rem; color: var(--red); padding-top: .2em; }
+  .info dd { margin: 0; font-weight: 600; }
+  .map { position: relative; aspect-ratio: 4 / 3; border: 4px solid var(--ink); border-radius: var(--radius); overflow: hidden; background: var(--yellow-soft); }
+  .map :global(iframe) { width: 100%; height: 100%; border: 0; }
+  .map__load { all: unset; cursor: pointer; position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 6px; padding: 24px;
+    background: repeating-linear-gradient(45deg, var(--yellow) 0 18px, var(--yellow-soft) 18px 36px); }
+  .map__load span { font-family: var(--font-display); text-transform: uppercase; font-size: 1.3rem; background: var(--ink); color: #fff; padding: .5em 1em; border-radius: 999px; justify-self: center; }
+  .map__load small { font-weight: 600; }
+  .map__load:focus-visible { outline: 3px solid var(--red); outline-offset: -6px; }
+  .map__link { position: absolute; right: 8px; bottom: 8px; background: #fff; font-size: .8rem; padding: 2px 8px; border-radius: 6px; z-index: 2; }
+  @media (max-width: 820px) { .where { grid-template-columns: 1fr; } }
+
+  .faq-sec { background: var(--yellow-soft); }
+  .faq { display: grid; gap: 10px; max-width: 780px; }
+  .faq details { background: #fff; border: 2px solid var(--ink); border-radius: 10px; padding: 0 18px; }
+  .faq summary { cursor: pointer; font-weight: 800; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .faq summary::after { content: '+'; font-family: var(--font-display); color: var(--red); }
+  .faq details[open] summary::after { content: '–'; }
+  .faq details p { margin: 0 0 16px; color: var(--muted); }
+
+  .exhib { background: var(--red); color: #fff; }
+  .kicker--light { color: var(--yellow); }
+  .exhib__in { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: center; }
+  .exhib__cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .exhib .btn { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+  .exhib .btn--ghost { background: transparent; color: #fff; border-color: #fff; }
+  @media (max-width: 820px) { .exhib__in { grid-template-columns: 1fr; } }
+
+  .contact__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(24px, 5vw, 56px); align-items: start; }
+  .contact__side { display: grid; gap: 18px; }
+  .contact__box { background: var(--yellow); border: 2px solid var(--ink); border-radius: var(--radius); padding: 24px; box-shadow: 6px 6px 0 var(--ink); }
+  .contact__box--dark { background: var(--ink); color: #fff; box-shadow: 6px 6px 0 var(--red); }
+  .contact__box--dark a { color: var(--yellow); font-weight: 700; }
+  .contact__box h3 { font-family: var(--font-grunge); font-size: 1.4rem; }
+  .contact__box p:last-child { margin-bottom: 0; }
+  @media (max-width: 860px) { .contact__grid { grid-template-columns: 1fr; } }
+
+
+  .footer { background: var(--ink); color: #fff; padding-block: 40px; }
+  .footer__in { display: flex; gap: 20px; align-items: center; }
+  .footer img { background: var(--yellow); border-radius: 50%; padding: 6px; object-fit: contain; }
+  .footer p { margin: 0 0 .4em; }
+  .footer a { color: var(--yellow); }
+</style>

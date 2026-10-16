@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/edition';
+import { ui, localePath, type Lang } from '../i18n/ui';
+import { withBase } from '../utils/url';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang].privacy;
+---
+
+<Base lang={lang} title={`${t.title} – ${site.name}`} description={t.sections[0][1]} path="privacy">
+  <main class="wrap section privacy">
+    <p><a href={withBase(localePath(lang))}>{t.back}</a></p>
+    <h1>{t.title}</h1>
+    {t.sections.map(([h, p]) => (
+      <>
+        {h && <h2>{h}</h2>}
+        <p>{p}</p>
+      </>
+    ))}
+    <p>
+      {t.controller}: {site.organizer}. {t.contactLine}
+      <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a> · {site.phone}
+    </p>
+  </main>
+</Base>
+
+<style>
+  .privacy { max-width: 760px; }
+  .privacy h1 { font-size: clamp(2rem, 5vw, 3rem); text-transform: uppercase; }
+  .privacy h2 { font-size: 1.3rem; margin-top: 1.6em; }
+</style>

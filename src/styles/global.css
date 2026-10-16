@@ -67,3 +67,6 @@ p { margin: 0 0 1em; }
 .btn--ghost { background: transparent; color: var(--ink); }
 .btn--red { background: var(--red); border-color: var(--red); }
 .btn svg { width: 1.15em; height: 1.15em; flex: none; }
+
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; font-weight: 400; }
+.check input { margin-top: .3em; width: 18px; height: 18px; accent-color: var(--red); flex: none; }

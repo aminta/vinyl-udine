@@ -1,0 +1,74 @@
+---
+import { site } from '../data/edition';
+import { withBase } from '../utils/url';
+import { ui, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const n = ui[lang].news;
+const { publicKey, listId } = site.klaviyo;
+---
+
+{publicKey && listId && (
+  <form class="nform" novalidate data-key={publicKey} data-list={listId} data-lang={lang} data-wait={n.wait} data-ok={n.ok} data-error={n.error}>
+    <label class="nform__field">
+      <span class="sr-only">Email</span>
+      <input name="email" type="email" autocomplete="email" placeholder={n.placeholder} required />
+    </label>
+    <label class="check">
+      <input type="checkbox" name="consenso" required />
+      <span>{n.consent[0]}<a href={withBase(localePath(lang, 'privacy'))} target="_blank">{n.consent[1]}</a>{n.consent[2]}</span>
+    </label>
+    <button class="btn" type="submit">{n.button}</button>
+    <p class="nform__status" role="status" aria-live="polite"></p>
+  </form>
+)}
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.nform').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.nform__status')!;
+    const button = form.querySelector<HTMLButtonElement>('button')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      button.disabled = true;
+      status.textContent = form.dataset.wait!;
+      try {
+        // API client di Klaviyo: usa solo la chiave pubblica, nessun cookie sul sito.
+        const res = await fetch(`https://a.klaviyo.com/client/subscriptions?company_id=${form.dataset.key}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/vnd.api+json', revision: '2024-10-15' },
+          body: JSON.stringify({
+            data: {
+              type: 'subscription',
+              attributes: {
+                custom_source: `Sito vinyludine.it (${form.dataset.lang})`,
+                profile: { data: { type: 'profile', attributes: { email, properties: { lingua: form.dataset.lang } } } },
+              },
+              relationships: { list: { data: { type: 'list', id: form.dataset.list } } },
+            },
+          }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = form.dataset.ok!;
+      } catch {
+        status.textContent = form.dataset.error!;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .nform { display: grid; gap: 12px; }
+  .nform input[type=email] { font: inherit; width: 100%; padding: .75em .9em; border: 2px solid var(--ink); border-radius: 10px; background: #fff; }
+  .nform button { justify-self: start; cursor: pointer; font: inherit; font-weight: 700; }
+  .nform__status { margin: 0; font-weight: 700; min-height: 1.5em; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>

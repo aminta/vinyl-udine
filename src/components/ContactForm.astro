@@ -1,0 +1,158 @@
+---
+import { site } from '../data/edition';
+import { withBase } from '../utils/url';
+import { ui, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const f = ui[lang].form;
+const types = Object.entries(f.types);
+const endpoint = `https://formsubmit.co/ajax/${site.contactEmail}`;
+---
+
+<form
+  class="cform"
+  novalidate
+  data-endpoint={endpoint}
+  data-cc={site.contactCc}
+  data-lang={lang}
+  data-sending={f.sending}
+  data-ok={f.ok}
+  data-error={f.error}
+>
+  <fieldset class="cform__who">
+    <legend>{f.legend}</legend>
+    {types.map(([value, label], i) => (
+      <label><input type="radio" name="tipo" value={value} checked={i === 0} /> {label}</label>
+    ))}
+  </fieldset>
+
+  <div class="cform__row">
+    <label class="field">
+      <span>{f.name}</span>
+      <input name="nome" autocomplete="name" required maxlength="120" />
+    </label>
+    <label class="field">
+      <span>{f.email}</span>
+      <input name="email" type="email" autocomplete="email" required maxlength="160" />
+    </label>
+  </div>
+
+  <div class="cform__row cform__exhib" hidden>
+    <label class="field">
+      <span>{f.from}</span>
+      <input name="provenienza" maxlength="120" />
+    </label>
+    <label class="field">
+      <span>{f.goods}</span>
+      <input name="materiale" placeholder={f.goodsPh} maxlength="200" />
+    </label>
+  </div>
+
+  <label class="field">
+    <span>{f.message}</span>
+    <textarea name="messaggio" rows="5" required maxlength="3000"></textarea>
+  </label>
+
+  <input class="cform__hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <label class="check">
+    <input type="checkbox" name="privacy" required />
+    <span>{f.consent[0]}<a href={withBase(localePath(lang, 'privacy'))} target="_blank">{f.consent[1]}</a>{f.consent[2]}</span>
+  </label>
+
+  <button class="btn btn--red" type="submit">{f.send}</button>
+  <p class="cform__status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.cform').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.cform__status')!;
+    const exhib = form.querySelector<HTMLElement>('.cform__exhib')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+    const syncType = () => {
+      exhib.hidden = (form.elements.namedItem('tipo') as RadioNodeList).value !== 'Espositore';
+    };
+    form.addEventListener('change', syncType);
+
+    // I link #contatti?espositore (es. dalla sezione espositori) preselezionano il tipo.
+    const preselect = () => {
+      if (location.hash.includes('espositore')) {
+        form.querySelector<HTMLInputElement>('input[value="Espositore"]')!.checked = true;
+        syncType();
+      }
+    };
+    preselect();
+    addEventListener('hashchange', preselect);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'cform__status';
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (data._honey) return;
+      delete data.privacy;
+      if (data.tipo !== 'Espositore') {
+        delete data.provenienza;
+        delete data.materiale;
+      }
+
+      button.disabled = true;
+      status.textContent = form.dataset.sending!;
+      try {
+        const res = await fetch(form.dataset.endpoint!, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            ...data,
+            lingua: form.dataset.lang,
+            _subject: `Vinyl Udine – messaggio da ${data.nome} (${data.tipo})`,
+            _replyto: data.email,
+            _cc: form.dataset.cc,
+            _template: 'table',
+            _captcha: 'false',
+          }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || String(json.success) !== 'true') throw new Error(json.message || res.statusText);
+        form.reset();
+        syncType();
+        status.textContent = form.dataset.ok!;
+        status.classList.add('is-ok');
+      } catch {
+        status.textContent = form.dataset.error!;
+        status.classList.add('is-error');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .cform { display: grid; gap: 16px; }
+  .cform__who { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .cform__who legend { font-weight: 800; margin-bottom: 8px; }
+  .cform__who label { border: 2px solid var(--ink); border-radius: 999px; padding: .35em .9em; font-weight: 700; cursor: pointer; display: inline-flex; gap: .4em; align-items: center; background: #fff; }
+  .cform__who label:has(input:checked) { background: var(--ink); color: var(--yellow); }
+  .cform__who input { accent-color: var(--red); }
+  .cform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cform__row[hidden] { display: none; }
+  @media (max-width: 640px) { .cform__row { grid-template-columns: 1fr; } }
+  .field { display: grid; gap: 6px; font-weight: 700; }
+  .field input, .field textarea {
+    font: inherit; font-weight: 400; padding: .7em .85em; border: 2px solid var(--ink); border-radius: 10px; background: #fff; color: var(--ink); width: 100%;
+  }
+  .field textarea { resize: vertical; }
+  .field input:focus, .field textarea:focus { outline: 3px solid var(--yellow); outline-offset: 0; border-color: var(--red); }
+  .cform__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .cform button { justify-self: start; cursor: pointer; font: inherit; font-weight: 700; }
+  .cform button:disabled { opacity: .6; cursor: progress; }
+  .cform__status { margin: 0; font-weight: 700; min-height: 1.5em; }
+  .cform__status.is-ok { color: #1d6b2f; }
+  .cform__status.is-error { color: var(--red); }
+</style>

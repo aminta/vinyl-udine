@@ -3,38 +3,44 @@ import '@fontsource/archivo-black/400.css';
 import '@fontsource-variable/archivo';
 import '../styles/global.css';
 import { site } from '../data/edition';
+import { languages, localePath, defaultLang, type Lang } from '../i18n/ui';
 import { withBase } from '../utils/url';
 
 interface Props {
+  lang: Lang;
   title: string;
   description: string;
+  // Percorso della pagina senza prefisso di lingua ('' per la home), per canonical e hreflang.
+  path?: string;
   ogImage?: string;
   jsonLd?: object;
 }
 
-const { title, description, ogImage = withBase('og-image.jpg'), jsonLd } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const { lang, title, description, path = '', ogImage = withBase('og-image.jpg'), jsonLd } = Astro.props;
+const abs = (l: Lang) => new URL(withBase(localePath(l, path)), Astro.site).href;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={abs(lang)} />
+    {(Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(defaultLang)} />
     <meta name="theme-color" content="#FCCF04" />
     <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
     <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content="it_IT" />
+    <meta property="og:locale" content={languages[lang].og} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={abs(lang)} />
     <meta property="og:image" content={ogUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

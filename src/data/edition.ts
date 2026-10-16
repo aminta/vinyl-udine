@@ -1,30 +1,31 @@
-// Tutti i dati della prossima edizione: per una nuova data si aggiorna solo questo file.
+// Dati della prossima edizione: per una nuova data si aggiorna questo file (i testi tradotti sono in src/i18n/).
 
 export const site = {
   name: 'Vinyl Udine',
-  tagline: 'Fiera del disco',
   url: 'https://vinyludine.it',
   facebook: 'https://www.facebook.com/vinyludine',
+  messenger: 'https://m.me/vinyludine',
   phone: '+39 345 261 0331',
   phoneLabel: '345 261 0331',
   organizer: 'Factory di Alessandro Perissutti',
+  // Il form contatti passa da FormSubmit (formsubmit.co): al primo invio arriva una mail di attivazione a contactEmail.
+  contactEmail: 'info@rockfactoryshop.com',
+  contactCc: 'davide.lorigliola@gmail.com',
+  // Newsletter Klaviyo: chiave pubblica (Site ID) e lista "Newsletter Vinyl Udine List" (doppio opt-in).
+  klaviyo: { publicKey: 'QNXe8W' as string | null, listId: 'SewNGZ' as string | null },
 };
 
 export const edition = {
   number: 15,
-  season: 'Autumn Edition',
   start: '2026-11-08T09:30:00+01:00',
   end: '2026-11-08T19:00:00+01:00',
-  dateLabel: 'Domenica 8 novembre 2026',
-  dateShort: '8 novembre 2026',
-  hours: '9.30 – 19.00',
   price: 3,
-  exhibitors: 'una trentina',
-  countries: ['Italia', 'Austria', 'Slovenia', 'Croazia'],
   // Link all'evento Facebook dell'edizione, da inserire appena creato.
   facebookEvent: null as string | null,
   // Patrocinio del Comune di Udine: true solo quando concesso per questa edizione.
   patrocinio: false,
+  // Edizione successiva, mostrata dal conto alla rovescia a fiera finita.
+  next: { it: 'primavera 2027', en: 'spring 2027', sl: 'spomladi 2027', de: 'im Frühjahr 2027' },
   venue: {
     name: 'Palestra Don Bosco',
     host: 'Istituto Salesiano G. Bearzi',
@@ -35,11 +36,4 @@ export const edition = {
     lat: 46.07868,
     lon: 13.2496,
   },
-  genres: [
-    'Rock', 'Jazz', 'Funk', 'Soul', 'Punk', 'New wave', 'Dark',
-    'Pop', 'Progressive', 'Elettronica',
-  ],
-  goods: ['Vinili', 'CD', 'DVD', 'Libri', 'Riviste', 'Merchandising musicale'],
 };
-
-export const nextSeason = 'primavera 2027';
