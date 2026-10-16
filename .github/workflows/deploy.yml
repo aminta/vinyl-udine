@@ -18,8 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Anteprima su aminta.github.io/vinyl-udine. Al passaggio su vinyludine.it
-      # impostare le variabili del repo PAGES_BASE="/" e SITE_URL="https://vinyludine.it".
+      # Variabili del repo: PAGES_BASE="/" e SITE_URL="https://vinyludine.it" (dominio attivo dal 16/10/2026).
       PAGES_BASE: ${{ vars.PAGES_BASE || '/vinyl-udine' }}
       SITE_URL: ${{ vars.SITE_URL || 'https://aminta.github.io' }}
     steps:

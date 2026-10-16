@@ -16,6 +16,6 @@ npm run dev
 
 ## Dominio
 
-Finché i DNS di `vinyludine.it` (Register.it) non puntano a GitHub Pages, il sito è in anteprima su
-`https://aminta.github.io/vinyl-udine/`. Al passaggio: record DNS verso GitHub Pages, dominio personalizzato
-nelle impostazioni Pages e variabili del repo `PAGES_BASE=/` e `SITE_URL=https://vinyludine.it`.
+Online su https://vinyludine.it (DNS su Register.it: 4 record A verso GitHub Pages 185.199.108–111.153,
+`www` CNAME verso `aminta.github.io`; MX/PEC invariati). Dominio personalizzato impostato nelle impostazioni Pages,
+variabili del repo `PAGES_BASE=/` e `SITE_URL=https://vinyludine.it`.
