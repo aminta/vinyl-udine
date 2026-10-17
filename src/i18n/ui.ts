@@ -45,7 +45,7 @@ const it = {
     title: 'Migliaia di dischi sotto lo stesso tetto',
     intro:
       "Due volte all'anno la palestra Don Bosco del Bearzi diventa la casa di chi ama la musica fisica. " +
-      'Una trentina di espositori da Italia, Austria, Slovenia e Croazia portano 33 e 45 giri, CD e rarità per tutti i gusti.',
+      '35 espositori da Italia, Austria, Slovenia e Croazia e oltre 80 tavoli di 33 e 45 giri, CD e rarità per tutti i gusti.',
     genresAria: 'Generi musicali',
     genres: ['Rock', 'Jazz', 'Funk', 'Soul', 'Punk', 'New wave', 'Dark', 'Pop', 'Progressive', 'Elettronica'],
     cards: [
@@ -175,7 +175,7 @@ const en: Dict = {
     title: 'Thousands of records under one roof',
     intro:
       'Twice a year the Don Bosco sports hall at the Bearzi institute becomes home to everyone who loves physical music. ' +
-      'Around thirty dealers from Italy, Austria, Slovenia and Croatia bring LPs, singles, CDs and rarities for every taste.',
+      '35 dealers from Italy, Austria, Slovenia and Croatia and more than 80 tables of LPs, singles, CDs and rarities for every taste.',
     genresAria: 'Music genres',
     genres: ['Rock', 'Jazz', 'Funk', 'Soul', 'Punk', 'New wave', 'Dark', 'Pop', 'Progressive', 'Electronic'],
     cards: [
@@ -303,7 +303,7 @@ const sl: Dict = {
     title: 'Na tisoče plošč pod eno streho',
     intro:
       'Dvakrat na leto telovadnica Don Bosco na zavodu Bearzi postane dom vseh, ki imajo radi glasbo v fizični obliki. ' +
-      'Približno trideset razstavljavcev iz Italije, Avstrije, Slovenije in Hrvaške prinese LP-je, single, CD-je in redkosti za vse okuse.',
+      '35 razstavljavcev iz Italije, Avstrije, Slovenije in Hrvaške in več kot 80 miz z LP-ji, singli, CD-ji in redkostmi za vse okuse.',
     genresAria: 'Glasbene zvrsti',
     genres: ['Rock', 'Jazz', 'Funk', 'Soul', 'Punk', 'New wave', 'Dark', 'Pop', 'Progressive', 'Elektronika'],
     cards: [
@@ -431,7 +431,7 @@ const de: Dict = {
     title: 'Tausende Platten unter einem Dach',
     intro:
       'Zweimal im Jahr wird die Sporthalle Don Bosco des Instituts Bearzi zum Treffpunkt für alle, die Musik zum Anfassen lieben. ' +
-      'Rund dreißig Aussteller aus Italien, Österreich, Slowenien und Kroatien bringen LPs, Singles, CDs und Raritäten für jeden Geschmack.',
+      '35 Aussteller aus Italien, Österreich, Slowenien und Kroatien und über 80 Tische mit LPs, Singles, CDs und Raritäten für jeden Geschmack.',
     genresAria: 'Musikrichtungen',
     genres: ['Rock', 'Jazz', 'Funk', 'Soul', 'Punk', 'New Wave', 'Dark', 'Pop', 'Progressive', 'Elektronik'],
     cards: [
