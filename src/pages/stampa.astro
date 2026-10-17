@@ -9,11 +9,15 @@ const n = edition.number;
 
 const photos = [
   { file: 'vinyl-udine-foto-01.jpg', caption: 'La palestra del Bearzi durante Vinyl Udine (marzo 2025)', size: '3000×2250' },
-  { file: 'vinyl-udine-foto-02.jpg', caption: 'Banchi ed espositori', size: '1280×960' },
-  { file: 'vinyl-udine-foto-03.jpg', caption: 'Il pubblico tra i banchi', size: '1280×960' },
-  { file: 'vinyl-udine-foto-04.jpg', caption: 'Vista della sala', size: '2000×1500' },
-  { file: 'vinyl-udine-foto-05.jpg', caption: 'Collezionisti al lavoro', size: '1280×960' },
-  { file: 'vinyl-udine-foto-06.jpg', caption: 'La fiera dall’alto', size: '1280×1197' },
+  { file: 'vinyl-udine-foto-02.jpg', caption: 'La sala piena (ottobre 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-03.jpg', caption: 'Banchi ed espositori (marzo 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-04.jpg', caption: 'A caccia di dischi (marzo 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-05.jpg', caption: 'Tra le casse di vinili (marzo 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-06.jpg', caption: 'Collezionisti al banco (ottobre 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-07.jpg', caption: 'Un collezionista sfoglia i dischi (marzo 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-08.jpg', caption: 'Migliaia di LP (ottobre 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-09.jpg', caption: 'The Clash in vendita (marzo 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-10.jpg', caption: 'Blues Brothers (ottobre 2025)', size: '2250×3000' },
 ];
 
 const long = `Vinyl Udine, domenica 8 novembre la fiera del disco torna al Bearzi per la quindicesima edizione
@@ -25,6 +29,8 @@ Udine – La puntina riprende a girare. Domenica 8 novembre la palestra Don Bosc
 Nata nel 2018 e diventata un appuntamento fisso di primavera e autunno, la fiera porta in città una trentina di espositori dal Friuli Venezia Giulia, da altre regioni italiane e dai paesi vicini – Austria, Slovenia e Croazia – con migliaia di dischi e CD: rock, jazz, funk, soul, punk, new wave, dark, pop, progressive, elettronica e colonne sonore, dal 45 giri da pochi euro alla prima stampa da collezione, passando per le edizioni giapponesi tanto amate dai collezionisti. Chi ha dischi che non ascolta più può portarli e proporli in scambio agli espositori.
 
 I numeri spiegano perché la fiera continua a crescere. Secondo il rapporto annuale FIMI, nel 2025 in Italia i ricavi del vinile sono saliti del 24,2%, a 48,6 milioni di euro, e il CD è tornato a crescere (+15,1%): gli italiani hanno comprato 4,6 milioni di dischi fisici, un livello che non si vedeva da quasi dieci anni, e due terzi di quei ricavi arrivano dal vinile. Negli Stati Uniti il vinile ha superato il miliardo di dollari per la prima volta dal 1983, al diciannovesimo anno consecutivo di crescita.
+
+«Più la musica diventa un abbonamento, più cresce la voglia di avere in mano qualcosa di proprio: una copertina, un'edizione, un ricordo» spiegano gli organizzatori. «A Vinyl Udine vediamo collezionisti di lungo corso accanto a ragazzi che comprano il loro primo disco, e famiglie che passano la domenica tra i banchi. Ed è anche un momento d'incontro tra appassionati di tutta l'area Alpe Adria.»
 
 Nella palestra sono disponibili un bar aperto tutta la giornata e un ampio parcheggio. Informazioni, mappa e contatti sul sito della manifestazione, vinyludine.it, disponibile in italiano, inglese, sloveno e tedesco.
 
@@ -64,7 +70,7 @@ Info: vinyludine.it · ${site.phoneLabel}`;
     </dl>
 
     <h2>Foto <span>· Photos · Fotografije · Fotos</span></h2>
-    <p><a class="btn btn--red" href={withBase('stampa/vinyl-udine-stampa-foto.zip')} download>Scarica tutto (ZIP, 5 MB)</a></p>
+    <p><a class="btn btn--red" href={withBase('stampa/vinyl-udine-stampa-foto.zip')} download>Scarica tutto (ZIP, 17 MB)</a></p>
     <div class="press__grid">
       {photos.map((p) => (
         <figure class="press__card">
