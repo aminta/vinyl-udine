@@ -16,9 +16,11 @@ interface Props {
   jsonLd?: object;
   // Pagine di servizio (es. /kit): niente indicizzazione né hreflang.
   noindex?: boolean;
+  // Pagine solo in italiano (es. /stampa): indicizzate ma senza alternative di lingua.
+  alternates?: boolean;
 }
 
-const { lang, title, description, path = '', ogImage = withBase('og-image.jpg'), jsonLd, noindex = false } = Astro.props;
+const { lang, title, description, path = '', ogImage = withBase('og-image.jpg'), jsonLd, noindex = false, alternates = !noindex } = Astro.props;
 const abs = (l: Lang) => new URL(withBase(localePath(l, path)), Astro.site).href;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
@@ -32,8 +34,8 @@ const ogUrl = new URL(ogImage, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={abs(lang)} />
     {noindex && <meta name="robots" content="noindex" />}
-    {!noindex && (Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
-    {!noindex && <link rel="alternate" hreflang="x-default" href={abs(defaultLang)} />}
+    {alternates && (Object.keys(languages) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
+    {alternates && <link rel="alternate" hreflang="x-default" href={abs(defaultLang)} />}
     <meta name="theme-color" content="#FCCF04" />
     <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
     <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />

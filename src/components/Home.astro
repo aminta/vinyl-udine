@@ -299,6 +299,7 @@ const jsonLd = {
           <a href={site.facebook} rel="noopener" target="_blank">Facebook</a>
           <a href={tel}>{site.phoneLabel}</a>
           <a href={withBase(localePath(lang, 'privacy'))}>{t.footer.privacy}</a>
+          <a href={withBase('stampa/')}>{({ it: 'Area stampa', en: 'Press', sl: 'Za medije', de: 'Presse' })[lang]}</a>
         </p>
       </div>
     </div>

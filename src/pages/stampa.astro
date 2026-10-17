@@ -1,0 +1,151 @@
+---
+// Area stampa: comunicato pronto da copiare, foto e materiali scaricabili per le redazioni.
+// Pagina di servizio collegata dal footer; testi in italiano con una riga in EN/SL/DE.
+import Base from '../layouts/Base.astro';
+import { site, edition } from '../data/edition';
+import { withBase } from '../utils/url';
+
+const n = edition.number;
+
+const photos = [
+  { file: 'vinyl-udine-foto-01.jpg', caption: 'La palestra del Bearzi durante Vinyl Udine (marzo 2025)', size: '3000×2250' },
+  { file: 'vinyl-udine-foto-02.jpg', caption: 'Banchi ed espositori', size: '1280×960' },
+  { file: 'vinyl-udine-foto-03.jpg', caption: 'Il pubblico tra i banchi', size: '1280×960' },
+  { file: 'vinyl-udine-foto-04.jpg', caption: 'Vista della sala', size: '2000×1500' },
+  { file: 'vinyl-udine-foto-05.jpg', caption: 'Collezionisti al lavoro', size: '1280×960' },
+  { file: 'vinyl-udine-foto-06.jpg', caption: 'La fiera dall’alto', size: '1280×1197' },
+];
+
+const long = `Vinyl Udine, domenica 8 novembre la fiera del disco torna al Bearzi per la quindicesima edizione
+
+Una trentina di espositori da Italia, Austria, Slovenia e Croazia. In Italia il vinile è cresciuto del 24% in un anno e oggi vale due terzi del mercato fisico
+
+Udine – La puntina riprende a girare. Domenica 8 novembre la palestra Don Bosco dell'Istituto Salesiano Bearzi (via Don Bosco 2, Udine) ospita la quindicesima edizione di Vinyl Udine, la mostra mercato del disco in vinile e del CD nuovo, usato e da collezione, con il patrocinio del Comune di Udine. Porte aperte dalle 9.30 alle 19.00, orario continuato; l'ingresso costa 3 euro.
+
+Nata nel 2018 e diventata un appuntamento fisso di primavera e autunno, la fiera porta in città una trentina di espositori dal Friuli Venezia Giulia, da altre regioni italiane e dai paesi vicini – Austria, Slovenia e Croazia – con migliaia di dischi e CD: rock, jazz, funk, soul, punk, new wave, dark, pop, progressive, elettronica e colonne sonore, dal 45 giri da pochi euro alla prima stampa da collezione, passando per le edizioni giapponesi tanto amate dai collezionisti. Chi ha dischi che non ascolta più può portarli e proporli in scambio agli espositori.
+
+I numeri spiegano perché la fiera continua a crescere. Secondo il rapporto annuale FIMI, nel 2025 in Italia i ricavi del vinile sono saliti del 24,2%, a 48,6 milioni di euro, e il CD è tornato a crescere (+15,1%): gli italiani hanno comprato 4,6 milioni di dischi fisici, un livello che non si vedeva da quasi dieci anni, e due terzi di quei ricavi arrivano dal vinile. Negli Stati Uniti il vinile ha superato il miliardo di dollari per la prima volta dal 1983, al diciannovesimo anno consecutivo di crescita.
+
+Nella palestra sono disponibili un bar aperto tutta la giornata e un ampio parcheggio. Informazioni, mappa e contatti sul sito della manifestazione, vinyludine.it, disponibile in italiano, inglese, sloveno e tedesco.
+
+La fiera è organizzata da Factory di Alessandro Perissutti con il patrocinio del Comune di Udine.`;
+
+const short = `Vinyl Udine – fiera del disco in vinile e CD
+Domenica 8 novembre 2026, ore 9.30–19.00 · Palestra Don Bosco, Istituto Bearzi, via Don Bosco 2, Udine · Ingresso 3 €
+Quindicesima edizione della mostra mercato del disco in vinile e del CD nuovo, usato e da collezione: una trentina di espositori da Italia, Austria, Slovenia e Croazia, migliaia di dischi tra rock, jazz, soul, punk, new wave, progressive ed elettronica. Possibilità di scambiare i propri dischi con gli espositori. Bar e ampio parcheggio. Con il patrocinio del Comune di Udine.
+Info: vinyludine.it · ${site.phoneLabel}`;
+---
+
+<Base lang="it" title="Area stampa – Vinyl Udine" description="Comunicato stampa, foto e materiali di Vinyl Udine, la fiera del disco di Udine: domenica 8 novembre 2026 al Bearzi." path="stampa" alternates={false}>
+  <main class="wrap section press">
+    <p><a href={withBase('')}>← vinyludine.it</a></p>
+    <p class="kicker">Area stampa · Press · Za medije · Presse</p>
+    <h1>Vinyl Udine {n}ª edizione</h1>
+    <p class="press__sub">Domenica 8 novembre 2026 · Palestra Don Bosco – Bearzi, Udine</p>
+    <p class="lead">
+      Testi liberi da usare anche integralmente, foto scaricabili in alta risoluzione (credito: <em>foto Vinyl Udine</em>),
+      logo e volantino. Per interviste e riprese in fiera: {site.organizer}, <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>, <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phoneLabel}</a>.
+    </p>
+    <p class="press__tr">
+      <span lang="en">Press releases, high-resolution photos and logo for journalists.</span>
+      <span lang="sl">Sporočila za javnost, fotografije in logotip za novinarje.</span>
+      <span lang="de">Pressetexte, hochauflösende Fotos und Logo für Journalisten.</span>
+    </p>
+
+    <h2>In breve</h2>
+    <dl class="press__facts">
+      <dt>Quando</dt><dd>Domenica 8 novembre 2026, 9.30–19.00 (orario continuato)</dd>
+      <dt>Dove</dt><dd>Palestra Don Bosco, Istituto Salesiano G. Bearzi, via Don Bosco 2, Udine</dd>
+      <dt>Ingresso</dt><dd>3 euro</dd>
+      <dt>Espositori</dt><dd>Una trentina, da Italia, Austria, Slovenia e Croazia</dd>
+      <dt>Patrocinio</dt><dd>Comune di Udine</dd>
+      <dt>Organizzazione</dt><dd>{site.organizer}</dd>
+      <dt>Online</dt><dd><a href={site.url}>vinyludine.it</a> · <a href={site.facebook}>Facebook</a> · <a href={edition.facebookEvent}>evento Facebook</a></dd>
+    </dl>
+
+    <h2>Foto <span>· Photos · Fotografije · Fotos</span></h2>
+    <p><a class="btn btn--red" href={withBase('stampa/vinyl-udine-stampa-foto.zip')} download>Scarica tutto (ZIP, 5 MB)</a></p>
+    <div class="press__grid">
+      {photos.map((p) => (
+        <figure class="press__card">
+          <a href={withBase(`stampa/${p.file}`)}><img src={withBase(`stampa/thumb/${p.file}`)} alt={p.caption} loading="lazy" /></a>
+          <figcaption>
+            <span>{p.caption}</span>
+            <small>{p.size} px · foto Vinyl Udine</small>
+            <a class="btn" href={withBase(`stampa/${p.file}`)} download>Scarica</a>
+          </figcaption>
+        </figure>
+      ))}
+      <figure class="press__card">
+        <a href={withBase('stampa/vinyl-udine-8-novembre-2026-volantino.jpg')}><img src={withBase('stampa/thumb/vinyl-udine-8-novembre-2026-volantino.jpg')} alt="Volantino 8 novembre 2026" loading="lazy" /></a>
+        <figcaption>
+          <span>Volantino 8 novembre 2026</span>
+          <small>1500×2000 px</small>
+          <a class="btn" href={withBase('stampa/vinyl-udine-8-novembre-2026-volantino.jpg')} download>Scarica</a>
+        </figcaption>
+      </figure>
+      <figure class="press__card press__card--logo">
+        <a href={withBase('stampa/vinyl-udine-logo.png')}><img src={withBase('stampa/thumb/vinyl-udine-logo.png')} alt="Logo Vinyl Udine" loading="lazy" /></a>
+        <figcaption>
+          <span>Logo (PNG trasparente)</span>
+          <small>740×561 px</small>
+          <a class="btn" href={withBase('stampa/vinyl-udine-logo.png')} download>Scarica</a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h2>Comunicato stampa</h2>
+    <article class="press__text">
+      <p class="press__body">{long}</p>
+      <button type="button" class="btn btn--red press__copy" data-label="Copia il testo" data-done="Copiato!">Copia il testo</button>
+    </article>
+
+    <h2>Versione breve per agende</h2>
+    <article class="press__text">
+      <p class="press__body">{short}</p>
+      <button type="button" class="btn btn--red press__copy" data-label="Copia il testo" data-done="Copiato!">Copia il testo</button>
+    </article>
+
+    <p class="press__src">
+      Fonti dei dati: Report FIMI 2026 (mercato italiano 2025); RIAA, Year-End Music Industry Revenue Report 2025 (Stati Uniti).
+    </p>
+  </main>
+
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('.press__copy').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const text = btn.parentElement!.querySelector('.press__body')!.textContent!;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = btn.dataset.done!;
+        } catch {
+          btn.textContent = '⚠︎';
+        }
+        setTimeout(() => (btn.textContent = btn.dataset.label!), 2500);
+      });
+    });
+  </script>
+</Base>
+
+<style>
+  .press h1 { font-size: clamp(2rem, 6vw, 3.4rem); text-transform: uppercase; margin-bottom: .1em; }
+  .press__sub { font-family: var(--font-grunge); color: var(--red); font-size: 1.15rem; }
+  .press h2 { margin-top: 1.6em; font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+  .press h2 span { font-family: var(--font-body); font-size: .45em; font-weight: 600; text-transform: none; color: var(--muted); letter-spacing: 0; }
+  .press__tr { display: grid; gap: 4px; font-size: .9rem; color: var(--muted); border-left: 3px solid var(--yellow); padding-left: 12px; }
+  .press__facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0; }
+  .press__facts dt { font-weight: 800; }
+  .press__facts dd { margin: 0; overflow-wrap: anywhere; }
+  .press__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; margin-top: 14px; }
+  .press__card { margin: 0; background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  .press__card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .press__card--logo img { object-fit: contain; background: var(--yellow-soft); padding: 12px; }
+  .press__card figcaption { padding: 12px 14px; display: grid; gap: 4px; }
+  .press__card small { color: var(--muted); }
+  .press__card .btn { justify-self: start; margin-top: 4px; }
+  .press__text { background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); padding: 18px; }
+  .press__body { white-space: pre-line; margin: 0 0 14px; overflow-wrap: anywhere; }
+  .press__copy { cursor: pointer; font: inherit; font-weight: 700; }
+  .press__src { font-size: .85rem; color: var(--muted); margin-top: 2em; }
+  @media (max-width: 520px) { .press__facts { grid-template-columns: 1fr; } .press__facts dd { margin-bottom: 6px; } }
+</style>
