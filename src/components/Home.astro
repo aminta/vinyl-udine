@@ -6,6 +6,7 @@ import NewsletterForm from './NewsletterForm.astro';
 import { site, edition } from '../data/edition';
 import { ui, languages, formatDate, localePath, type Lang } from '../i18n/ui';
 import { withBase } from '../utils/url';
+import { press } from '../data/press';
 import logo from '../assets/logo-vinyl-udine.png';
 import badge from '../assets/logo-badge.png';
 
@@ -32,6 +33,13 @@ const tel = `tel:${site.phone.replace(/\s/g, '')}`;
 const whatsapp = `https://wa.me/${site.phone.replace(/\D/g, '')}`;
 const home = withBase(localePath(lang));
 const faqs = t.faq.items(edition.price);
+const pressT = ({
+  it: { kicker: 'Rassegna stampa', title: 'Dicono di noi', more: 'Area stampa: comunicato, foto e materiali' },
+  en: { kicker: 'Press', title: 'In the news', more: 'Press area: release, photos and materials (Italian)' },
+  sl: { kicker: 'Mediji', title: 'Pišejo o nas', more: 'Za medije: sporočilo, fotografije in gradivo (v italijanščini)' },
+  de: { kicker: 'Presse', title: 'Presseecho', more: 'Pressebereich: Mitteilung, Fotos und Material (Italienisch)' },
+})[lang];
+const dateLocale = ({ it: 'it-IT', en: 'en-GB', sl: 'sl-SI', de: 'de-DE' })[lang];
 
 const title = t.metaTitle(date);
 const description = t.metaDescription(date, place, edition.price);
@@ -227,6 +235,27 @@ const jsonLd = {
       </div>
     </section>
 
+    {press.length > 0 && (
+      <section class="section press-sec" id="stampa">
+        <div class="wrap">
+          <p class="kicker">{pressT.kicker}</p>
+          <h2>{pressT.title}</h2>
+          <ul class="press">
+            {press.map((p) => (
+              <li>
+                <a href={p.url} rel="noopener" target="_blank">
+                  <span class="press__outlet">{p.outlet}</span>
+                  <span class="press__title" lang="it">{p.title}</span>
+                  <span class="press__date">{new Date(p.date + 'T12:00:00').toLocaleDateString(dateLocale, { day: 'numeric', month: 'long' })}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="press__more"><a href={withBase('stampa/')}>{pressT.more}</a></p>
+        </div>
+      </section>
+    )}
+
     <section class="section faq-sec" id="faq">
       <div class="wrap">
         <p class="kicker">{t.faq.kicker}</p>
@@ -413,6 +442,15 @@ const jsonLd = {
   .map__load:focus-visible { outline: 3px solid var(--red); outline-offset: -6px; }
   .map__link { position: absolute; right: 8px; bottom: 8px; background: #fff; font-size: .8rem; padding: 2px 8px; border-radius: 6px; z-index: 2; }
   @media (max-width: 820px) { .where { grid-template-columns: 1fr; } }
+
+  .press { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-width: 780px; }
+  .press a { display: grid; grid-template-columns: 9rem 1fr auto; gap: 4px 16px; align-items: baseline; padding: 14px 18px; border: 2px solid var(--ink); border-radius: 10px; color: var(--ink); text-decoration: none; background: #fff; }
+  .press a:hover .press__title { text-decoration: underline; text-decoration-color: var(--red); }
+  .press__outlet { font-family: var(--font-display); text-transform: uppercase; color: var(--red); }
+  .press__title { font-weight: 700; min-width: 0; }
+  .press__date { color: var(--muted); font-size: .9rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .press__more { margin: 16px 0 0; font-weight: 700; }
+  @media (max-width: 640px) { .press a { grid-template-columns: 1fr; } }
 
   .faq-sec { background: var(--yellow-soft); }
   .faq { display: grid; gap: 10px; max-width: 780px; }

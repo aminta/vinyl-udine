@@ -4,6 +4,7 @@
 import Base from '../layouts/Base.astro';
 import { site, edition } from '../data/edition';
 import { withBase } from '../utils/url';
+import { press } from '../data/press';
 
 const n = edition.number;
 
@@ -100,6 +101,20 @@ Info: vinyludine.it · ${site.phoneLabel}`;
       </figure>
     </div>
 
+    {press.length > 0 && (
+      <>
+        <h2>Dicono di noi</h2>
+        <ul class="press__list">
+          {press.map((p) => (
+            <li>
+              <span class="press__date">{new Date(p.date + 'T12:00:00').toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+              <span><strong>{p.outlet}</strong> – <a href={p.url} rel="noopener" target="_blank">{p.title}</a></span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
     <h2>Comunicato stampa</h2>
     <p>
       <a class="btn btn--red" href={withBase('stampa/vinyl-udine-comunicato-8-novembre-2026.pdf')} download>Scarica PDF</a>
@@ -153,6 +168,11 @@ Info: vinyludine.it · ${site.phoneLabel}`;
   .press__card figcaption { padding: 12px 14px; display: grid; gap: 4px; }
   .press__card small { color: var(--muted); }
   .press__card .btn { justify-self: start; margin-top: 4px; }
+  .press__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .press__list li { display: grid; grid-template-columns: 11rem 1fr; gap: 2px 14px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,.15); }
+  .press__list a { overflow-wrap: anywhere; }
+  .press__date { color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 520px) { .press__list li { grid-template-columns: 1fr; } }
   .press__text { background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); padding: 18px; }
   .press__body { white-space: pre-line; margin: 0 0 14px; overflow-wrap: anywhere; }
   .press__copy { cursor: pointer; font: inherit; font-weight: 700; }
