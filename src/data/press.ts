@@ -10,6 +10,13 @@ export type PressItem = {
 
 export const press: PressItem[] = [
   {
+    outlet: 'AmeVe Blog',
+    title: 'Vinyl Udine: 8 novembre, migliaia di dischi e 35 espositori',
+    url: 'https://ameve.eu/vinyl-udine-8-novembre-migliaia-di-dischi-e-35-espositori/',
+    date: '2026-11-03',
+    kind: 'online',
+  },
+  {
     outlet: 'FriuliOggi',
     title: 'A Udine torna la magia dei vinili: 35 espositori e migliaia di dischi da scoprire',
     url: 'https://www.friulioggi.it/udine/passione-vinile-udine-35-espositori-migliaia-dichi-bearzi-3-novembre-2026/',
@@ -28,6 +35,13 @@ export const press: PressItem[] = [
     title: "Vinyl Udine, l'8 novembre torna al Bearzi la fiera del disco",
     url: 'https://www.nordest24.it/vinyl-udine-8-novembre-fiera-disco-bearzi',
     date: '2026-11-02',
+    kind: 'online',
+  },
+  {
+    outlet: 'Zazoom',
+    title: 'Vinyl Udine domenica 8 novembre 2026 la fiera del disco torna al Bearzi',
+    url: 'https://www.zazoom.it/2026-10-29/vinyl-udine-domenica-8-novembre-2026-la-fiera-del-disco-torna-al-bearzi/19862013/',
+    date: '2026-10-29',
     kind: 'online',
   },
   {
