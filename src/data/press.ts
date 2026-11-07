@@ -10,6 +10,20 @@ export type PressItem = {
 
 export const press: PressItem[] = [
   {
+    outlet: 'FriuliOggi',
+    title: "Cantine aperte, fiere e formaggi: le sagre e gli eventi del weekend in Friuli",
+    url: 'https://www.friulioggi.it/friuli/cantine-aperte-fiere-formaggi-sagrei-eventi-weekend-friuli-6-novembre-2026/',
+    date: '2026-11-06',
+    kind: 'online',
+  },
+  {
+    outlet: 'DiarioFVG',
+    title: "Cosa fare in Friuli-Venezia Giulia nel weekend dal 6 all'8 novembre 2026",
+    url: 'https://www.diariofvg.it/2026/11/05/cosa-fare-friuli-venezia-giulia-weekend-6-8-novembre-2026',
+    date: '2026-11-05',
+    kind: 'online',
+  },
+  {
     outlet: 'AmeVe Blog',
     title: 'Vinyl Udine: 8 novembre, migliaia di dischi e 35 espositori',
     url: 'https://ameve.eu/vinyl-udine-8-novembre-migliaia-di-dischi-e-35-espositori/',
