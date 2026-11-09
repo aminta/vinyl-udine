@@ -8,6 +8,21 @@ import { press } from '../data/press';
 
 const n = edition.number;
 
+const photos2026 = [
+  { file: 'vinyl-udine-8-novembre-2026-01.jpg', caption: "L'ingresso della palestra Don Bosco al Bearzi", size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-02.jpg', caption: 'Panoramica della sala piena', size: '6000×2221' },
+  { file: 'vinyl-udine-8-novembre-2026-03.jpg', caption: 'Sala piena dalla mattina', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-04.jpg', caption: 'A caccia di dischi tra le casse', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-05.jpg', caption: 'Banchi ed espositori', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-06.jpg', caption: 'La palestra Don Bosco durante la fiera', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-07.jpg', caption: 'Collezionisti ai banchi', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-08.jpg', caption: 'Tra le casse di vinili', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-09.jpg', caption: 'Visitatori al banco', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-10.jpg', caption: "La sala dall'alto", size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-11.jpg', caption: 'Nel pomeriggio, tra i banchi', size: '3000×2250' },
+  { file: 'vinyl-udine-8-novembre-2026-12.jpg', caption: 'Black Sabbath, Paranoid', size: '2250×3000' },
+];
+
 const photos = [
   { file: 'vinyl-udine-foto-01.jpg', caption: 'La palestra del Bearzi durante Vinyl Udine (marzo 2025)', size: '3000×2250' },
   { file: 'vinyl-udine-foto-02.jpg', caption: 'La sala piena (ottobre 2025)', size: '3000×2250' },
@@ -70,7 +85,23 @@ Info: vinyludine.it · ${site.phoneLabel}`;
       <dt>Online</dt><dd><a href={site.url}>vinyludine.it</a> · <a href={site.facebook}>Facebook</a> · <a href={edition.facebookEvent}>evento Facebook</a></dd>
     </dl>
 
-    <h2>Foto <span>· Photos · Fotografije · Fotos</span></h2>
+    <h2>Foto dell'8 novembre 2026 <span>· Photos · Fotografije · Fotos</span></h2>
+    <p>Le foto della 15ª edizione, libere da usare con il credito <em>foto Vinyl Udine</em>.</p>
+    <p><a class="btn btn--red" href={withBase('stampa/vinyl-udine-8-novembre-2026-foto.zip')} download>Scarica tutto (ZIP, 21 MB)</a></p>
+    <div class="press__grid">
+      {photos2026.map((p) => (
+        <figure class="press__card">
+          <a href={withBase(`stampa/${p.file}`)}><img src={withBase(`stampa/thumb/${p.file}`)} alt={p.caption} loading="lazy" /></a>
+          <figcaption>
+            <span>{p.caption}</span>
+            <small>{p.size} px · foto Vinyl Udine</small>
+            <a class="btn" href={withBase(`stampa/${p.file}`)} download>Scarica</a>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <h2>Foto delle edizioni precedenti</h2>
     <p><a class="btn btn--red" href={withBase('stampa/vinyl-udine-stampa-foto.zip')} download>Scarica tutto (ZIP, 17 MB)</a></p>
     <div class="press__grid">
       {photos.map((p) => (
